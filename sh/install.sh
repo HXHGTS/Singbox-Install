@@ -40,11 +40,15 @@ Default_ConfDir=/etc/sing-box
 
 Set_ConfDir=/usr/local/etc/sing-box
 
+Default_BinDir=/usr/bin/sing-box
+
+Set_BinDir=/usr/local/bin/sing-box
+
 mkdir -p ${Set_ConfDir}
 
 echo '{}' > ${Set_ConfDir}/config.json
 
-curl https://raw.githubusercontent.com/SagerNet/sing-box/dev-next/release/config/sing-box.service | sed -e "s@${Default_ConfDir}@${Set_ConfDir}@g" > /etc/systemd/system/sing-box.service
+curl https://raw.githubusercontent.com/SagerNet/sing-box/dev-next/release/config/sing-box.service | sed -e "s@${Default_ConfDir}@${Set_ConfDir}@g;s@${Default_BinDir}@${Set_BinDir}@g" > /etc/systemd/system/sing-box.service
 
 wget -O /etc/systemd/system/sing-box@.service https://raw.githubusercontent.com/SagerNet/sing-box/dev-next/release/config/sing-box@.service
 
