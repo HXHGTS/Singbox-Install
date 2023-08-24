@@ -36,6 +36,8 @@ echo '正在安装sing-box核心. . .'
 
 mv -f /root/go/bin/sing-box /usr/local/bin/
 
+chmod +x /usr/local/bin/sing-box
+
 Default_ConfDir=/etc/sing-box
 
 Set_ConfDir=/usr/local/etc/sing-box
