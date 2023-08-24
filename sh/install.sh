@@ -54,4 +54,6 @@ wget -O /etc/systemd/system/sing-box@.service https://raw.githubusercontent.com/
 
 systemctl daemon-reload
 
+systemctl start sing-box
+
 echo 'sing-box核心已安装!'
