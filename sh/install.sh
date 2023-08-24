@@ -14,11 +14,13 @@ apt autoremove -y
 
 rm -rf /usr/local/go
 
-wget -O /var/tmp/go1.21.0.linux-amd64.tar.gz https://go.dev/dl/go1.21.0.linux-amd64.tar.gz
+Go_Version=${curl https://github.com/golang/go/tags | grep '/releases/tag/go' | head -n 1 | awk -F/ '{print $6}' | awk -F\" '{print $1}'}
 
-tar -C /usr/local -xzf /var/tmp/go1.21.0.linux-amd64.tar.gz
+wget -O /var/tmp/${Go_Version}.linux-amd64.tar.gz https://go.dev/dl/${Go_Version}.linux-amd64.tar.gz
 
-rm -f /var/tmp/go1.21.0.linux-amd64.tar.gz
+tar -C /usr/local -xzf /var/tmp/${Go_Version}.linux-amd64.tar.gz
+
+rm -f /var/tmp/${Go_Version}.linux-amd64.tar.gz
 
 export PATH=$PATH:/usr/local/go/bin
 
