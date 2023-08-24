@@ -42,7 +42,7 @@ Set_ConfDir=/usr/local/etc/sing-box
 
 mkdir -p ${Set_ConfDir}
 
-wget -O ${Set_ConfDir}/config.json https://raw.githubusercontent.com/SagerNet/sing-box/dev-next/release/config/config.json
+echo '{}' > ${Set_ConfDir}/config.json
 
 curl https://raw.githubusercontent.com/SagerNet/sing-box/dev-next/release/config/sing-box.service | sed -e "s@${Default_ConfDir}@${Set_ConfDir}@g" > /etc/systemd/system/sing-box.service
 
