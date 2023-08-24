@@ -4,7 +4,7 @@ echo '正在安装/升级必需插件. . .'
 
 apt update
 
-apt install -y curl wget tar
+apt install -y curl wget tar gawk sed
 
 echo '正在安装/升级go. . .'
 
@@ -14,7 +14,7 @@ apt autoremove -y
 
 rm -rf /usr/local/go
 
-Go_Version=${curl https://github.com/golang/go/tags | grep '/releases/tag/go' | head -n 1 | awk -F/ '{print $6}' | awk -F\" '{print $1}'}
+Go_Version=$(curl https://github.com/golang/go/tags | grep '/releases/tag/go' | head -n 1 | gawk -F/ '{print $6}' | gawk -F\" '{print $1}')
 
 wget -O /var/tmp/${Go_Version}.linux-amd64.tar.gz https://go.dev/dl/${Go_Version}.linux-amd64.tar.gz
 
@@ -28,7 +28,7 @@ go version
 
 echo '正在编译sing-box核心. . .'
 
-Singbox_Version=$(curl https://api.github.com/repos/SagerNet/sing-box/releases  | grep "tag_name" | head -n 1 | awk -F\" '{print $4}')
+Singbox_Version=$(curl https://api.github.com/repos/SagerNet/sing-box/releases  | grep "tag_name" | head -n 1 | gawk -F\" '{print $4}')
 
 go install -v -tags with_quic,with_dhcp,with_wireguard,with_utls,with_reality_server,with_acme,with_gvisor github.com/sagernet/sing-box/cmd/sing-box@${Singbox_Version}
 
