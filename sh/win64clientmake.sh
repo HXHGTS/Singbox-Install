@@ -4,7 +4,7 @@ export PATH=$PATH:/usr/local/go/bin
 
 echo '正在安装/升级必需插件. . .'
 
-apt install -y git build-essential libssl-dev libevent-dev zlib1g-dev gcc-mingw-w64
+apt install -y gcc-mingw-w64
 
 echo '正在编译Windows版sing-box核心. . .'
 
