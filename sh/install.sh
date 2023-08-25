@@ -6,7 +6,7 @@ apt update
 
 apt install -y curl wget tar gawk sed
 
-apt install -y git build-essential libssl-dev libevent-dev zlib1g-dev gcc-mingw-w64
+apt install -y git build-essential libssl-dev libevent-dev zlib1g-dev
 
 echo '正在安装/升级go. . .'
 
