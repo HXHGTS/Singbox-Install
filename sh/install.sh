@@ -6,6 +6,8 @@ apt update
 
 apt install -y curl wget tar gawk sed
 
+apt install -y git build-essential libssl-dev libevent-dev zlib1g-dev gcc-mingw-w64
+
 echo '正在安装/升级go. . .'
 
 apt remove -y --purge golang
@@ -26,11 +28,15 @@ export PATH=$PATH:/usr/local/go/bin
 
 go version
 
-echo '正在编译sing-box核心. . .'
+echo '正在编译linux版sing-box核心. . .'
 
 Singbox_Version=$(curl https://api.github.com/repos/SagerNet/sing-box/releases  | grep "tag_name" | head -n 1 | gawk -F\" '{print $4}')
 
 go install -v -tags with_quic,with_dhcp,with_wireguard,with_utls,with_reality_server,with_acme,with_gvisor github.com/sagernet/sing-box/cmd/sing-box@${Singbox_Version}
+
+echo '正在编译Windows版sing-box核心. . .'
+
+env GOOS=windows GOARCH=amd64 CGO_ENABLED=1 CC=x86_64-w64-mingw32-gcc go install -v -tags with_quic,with_dhcp,with_wireguard,with_utls,with_reality_server,with_acme,with_gvisor github.com/sagernet/sing-box/cmd/sing-box@${Singbox_Version}
 
 echo '正在安装sing-box核心. . .'
 
