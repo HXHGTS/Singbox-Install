@@ -1,5 +1,11 @@
 #!/bin/sh
 
+echo '正在关闭/卸载sing-box核心. . .'
+
+systemctl stop sing-box
+
+systemctl disable sing-box
+
 echo '正在安装/升级必需插件. . .'
 
 apt update
@@ -35,10 +41,6 @@ Singbox_Version=$(curl https://api.github.com/repos/SagerNet/sing-box/releases  
 go install -v -tags with_quic,with_grpc,with_dhcp,with_wireguard,with_shadowsocksr,with_ech,with_utls,with_reality_server,with_acme,with_clash_api,with_v2ray_api,with_gvisor,with_embedded_tor,with_lwip github.com/sagernet/sing-box/cmd/sing-box@${Singbox_Version}
 
 echo '正在安装sing-box核心. . .'
-
-systemctl stop sing-box
-
-systemctl disable sing-box
 
 mv -f /root/go/bin/sing-box /usr/local/bin/
 
