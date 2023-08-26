@@ -36,6 +36,10 @@ go install -v -tags with_quic,with_grpc,with_dhcp,with_wireguard,with_shadowsock
 
 echo '正在安装sing-box核心. . .'
 
+systemctl stop sing-box
+
+systemctl disable sing-box
+
 mv -f /root/go/bin/sing-box /usr/local/bin/
 
 chmod +x /usr/local/bin/sing-box
