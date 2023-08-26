@@ -8,7 +8,7 @@ curl -sSL https://raw.githubusercontent.com/HXHGTS/Singbox-Install/main/sh/compi
 ```
 curl -sSL https://raw.githubusercontent.com/HXHGTS/Singbox-Install/main/sh/install.sh | bash
 ```
-Windows AMD64客户端编译(文件位于/root/go/bin/windows_amd64):
+Windows AMD64客户端编译(文件位于`/root/go/bin/windows_amd64`):
 ```
 curl -sSL https://raw.githubusercontent.com/HXHGTS/Singbox-Install/main/sh/win64clientmake.sh | bash
 ```
