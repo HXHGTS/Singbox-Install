@@ -1,5 +1,11 @@
 #!/bin/sh
 
+echo '正在关闭/卸载sing-box核心. . .'
+
+systemctl stop sing-box
+
+systemctl disable sing-box
+
 echo '正在安装/升级必需插件. . .'
 
 apt update
