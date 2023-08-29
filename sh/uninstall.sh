@@ -2,7 +2,7 @@
 
 echo '正在卸载编译环境. . .'
 
-apt remove -y --purge git* build-essential* libssl* libevent* zlib1g*
+apt remove -y --purge git build-essential libssl-dev libevent-dev zlib1g-dev
 
 rm -rf /usr/local/go
 
