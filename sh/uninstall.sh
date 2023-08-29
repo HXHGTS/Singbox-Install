@@ -1,5 +1,11 @@
 #!/bin/sh
 
+echo '正在卸载编译环境. . .'
+
+apt remove -y --purge git* build-essential* libssl* libevent* zlib1g*
+
+rm -rf /usr/local/go
+
 echo '正在关闭/卸载sing-box核心. . .'
 
 systemctl stop sing-box
