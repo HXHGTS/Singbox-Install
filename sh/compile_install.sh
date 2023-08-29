@@ -60,9 +60,9 @@ mkdir -p ${Set_ConfDir}
 
 echo '{}' > ${Set_ConfDir}/config.json
 
-curl https://raw.githubusercontent.com/SagerNet/sing-box/dev-next/release/config/sing-box.service | sed -e "s@${Default_ConfDir}@${Set_ConfDir}@g;s@${Default_BinDir}@${Set_BinDir}@g" | grep -v 'CapabilityBoundingSet' > /etc/systemd/system/sing-box.service
+curl https://raw.githubusercontent.com/SagerNet/sing-box/dev-next/release/config/sing-box.service | sed -e "s@${Default_ConfDir}@${Set_ConfDir}@g;s@${Default_BinDir}@${Set_BinDir}@g" > /etc/systemd/system/sing-box.service
 
-curl https://raw.githubusercontent.com/SagerNet/sing-box/dev-next/release/config/sing-box@.service | sed -e "s@${Default_ConfDir}@${Set_ConfDir}@g;s@${Default_BinDir}@${Set_BinDir}@g" | grep -v 'CapabilityBoundingSet' > /etc/systemd/system/sing-box@.service
+curl https://raw.githubusercontent.com/SagerNet/sing-box/dev-next/release/config/sing-box@.service | sed -e "s@${Default_ConfDir}@${Set_ConfDir}@g;s@${Default_BinDir}@${Set_BinDir}@g" > /etc/systemd/system/sing-box@.service
 
 systemctl daemon-reload
 
