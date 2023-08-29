@@ -14,7 +14,7 @@ Default_BinDir=/usr/bin/sing-box
 
 Set_BinDir=/usr/local/bin/sing-box
 
-rm -rf /root/go/bin
+rm -rf /root/go/bin /usr/local/etc/sing-box  /var/lib/sing-box
 
 rm -f ${Set_BinDir}
 
