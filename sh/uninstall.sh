@@ -14,7 +14,9 @@ Default_BinDir=/usr/bin/sing-box
 
 Set_BinDir=/usr/local/bin/sing-box
 
-rm -f /root/go/bin/sing-box ${Set_BinDir}
+rm -rf /root/go/bin
+
+rm -f ${Set_BinDir}
 
 rm -rf ${Set_ConfDir}
 
