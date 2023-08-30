@@ -42,6 +42,8 @@ systemctl daemon-reload
 
 systemctl start sing-box
 
-echo 'sing-box核心已安装!'
+systemctl enable sing-box
+
+echo 'sing-box核心已更新!'
 
 exit 0
