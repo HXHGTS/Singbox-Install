@@ -20,7 +20,7 @@ go install -v -tags with_quic,with_grpc,with_dhcp,with_wireguard,with_ech,with_u
 
 echo '正在安装sing-box核心. . .'
 
-mv -f /root/go/bin/sing-box /usr/local/bin/
+mv -f /root/go/bin/sing-box /usr/local/bin/sing-box
 
 chmod +x /usr/local/bin/sing-box
 
