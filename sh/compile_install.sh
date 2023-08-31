@@ -38,7 +38,7 @@ echo '正在编译linux版sing-box核心. . .'
 
 Singbox_Version=$(curl https://api.github.com/repos/SagerNet/sing-box/releases  | grep "tag_name" | head -n 1 | gawk -F\" '{print $4}')
 
-go install -v -tags with_quic,with_grpc,with_dhcp,with_wireguard,with_shadowsocksr,with_ech,with_utls,with_reality_server,with_acme,with_clash_api,with_v2ray_api,with_gvisor,with_lwip github.com/sagernet/sing-box/cmd/sing-box@${Singbox_Version}
+env GOOS=linux GOARCH=amd64 GOAMD64=v3 CGO_ENABLED=1 go install -v -tags with_quic,with_grpc,with_dhcp,with_wireguard,with_shadowsocksr,with_ech,with_utls,with_reality_server,with_acme,with_clash_api,with_v2ray_api,with_gvisor,with_lwip github.com/sagernet/sing-box/cmd/sing-box@${Singbox_Version}
 
 #go install -v -tags with_quic,with_grpc,with_dhcp,with_wireguard,with_shadowsocksr,with_ech,with_utls,with_reality_server,with_acme,with_clash_api,with_v2ray_api,with_gvisor,with_embedded_tor,with_lwip github.com/sagernet/sing-box/cmd/sing-box@${Singbox_Version}
 
