@@ -22,8 +22,6 @@ mv -f /root/go/bin/sing-box /usr/local/bin/sing-box
 
 chmod +x /usr/local/bin/sing-box
 
-sing-box version
-
 systemctl start sing-box
 
 systemctl enable sing-box
