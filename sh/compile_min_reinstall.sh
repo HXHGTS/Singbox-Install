@@ -16,6 +16,8 @@ Singbox_Version=$(curl https://api.github.com/repos/SagerNet/sing-box/releases  
 
 env GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go install -ldflags "-X github.com/sagernet/sing-box/constant.Version=${Singbox_Version}" -v -tags with_quic,with_grpc,with_dhcp,with_wireguard,with_ech,with_utls,with_reality_server,with_acme,with_gvisor github.com/sagernet/sing-box/cmd/sing-box@${Singbox_Version}
 
+#env GOOS=linux GOARCH=amd64 GOAMD64=v3 CGO_ENABLED=0 go install -ldflags "-X github.com/sagernet/sing-box/constant.Version=${Singbox_Version}" -v -tags with_quic,with_grpc,with_dhcp,with_wireguard,with_ech,with_utls,with_reality_server,with_acme,with_gvisor github.com/sagernet/sing-box/cmd/sing-box@${Singbox_Version}
+
 echo '正在安装sing-box核心. . .'
 
 mv -f /root/go/bin/sing-box /usr/local/bin/sing-box
