@@ -2,7 +2,7 @@
 
 echo '正在卸载编译环境. . .'
 
-apt remove -y --purge git build-essential libssl-dev libevent-dev zlib1g-dev
+apt remove -y --purge git build-essential libssl-dev libevent-dev zlib1g-dev resolvconf dnsmasq
 
 apt autoremove -y
 
