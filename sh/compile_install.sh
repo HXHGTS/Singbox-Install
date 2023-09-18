@@ -12,8 +12,6 @@ apt update
 
 apt install -y curl wget tar gawk sed
 
-apt install -y git build-essential libssl-dev libevent-dev zlib1g-dev
-
 echo '正在安装/升级go. . .'
 
 apt remove -y --purge golang
