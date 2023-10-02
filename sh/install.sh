@@ -22,6 +22,8 @@ cd sing-box/release/local
 
 ./install.sh
 
+./enable.sh
+
 echo 'sing-box核心已安装!'
 
 exit 0
