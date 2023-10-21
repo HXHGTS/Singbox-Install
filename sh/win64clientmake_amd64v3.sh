@@ -2,6 +2,8 @@
 
 export PATH=$PATH:/usr/local/go/bin
 
+rm -f /root/go/pkg/mod/*
+
 echo '正在编译Windows版sing-box核心. . .'
 
 Singbox_Version=$(curl https://api.github.com/repos/SagerNet/sing-box/releases  | grep "tag_name" | grep '-'| head -n 1 | gawk -F\" '{print $4}')
