@@ -2,7 +2,7 @@
 
 export PATH=$PATH:/usr/local/go/bin
 
-rm -f /root/go/pkg/mod/*
+rm -rf /root/go/pkg/mod/*
 
 echo '正在编译Windows版sing-box核心. . .'
 
