@@ -32,6 +32,8 @@ systemctl daemon-reload
 
 systemctl start rc-local
 
+systemctl enable --now rc-local
+
 go version
 
 exit 0
