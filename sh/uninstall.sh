@@ -8,6 +8,8 @@ apt autoremove -y
 
 rm -rf /usr/local/go /root/go
 
+rm -f /root/.bashrc
+
 echo '正在关闭/卸载sing-box核心. . .'
 
 systemctl stop sing-box

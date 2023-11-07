@@ -6,9 +6,11 @@ systemctl stop sing-box
 
 systemctl disable sing-box
 
-echo '正在安装/升级go. . .'
+echo '正在打开Go环境. . .'
 
-export PATH=$PATH:/usr/local/go/bin
+source /root/.bashrc
+
+go version
 
 echo '正在编译linux版sing-box核心. . .'
 

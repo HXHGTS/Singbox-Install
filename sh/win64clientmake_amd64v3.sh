@@ -1,6 +1,10 @@
 #!/bin/sh
 
-export PATH=$PATH:/usr/local/go/bin
+echo '正在打开Go环境. . .'
+
+source /root/.bashrc
+
+go version
 
 echo '正在编译Windows版sing-box核心. . .'
 
