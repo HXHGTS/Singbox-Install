@@ -32,6 +32,10 @@ curl -sSL https://raw.githubusercontent.com/HXHGTS/Singbox-Install/main/sh/win64
 ```
 curl -sSL https://raw.githubusercontent.com/HXHGTS/Singbox-Install/main/sh/win64clientmake_amd64v3.sh | bash
 ```
+```
+curl -sSL https://raw.githubusercontent.com/HXHGTS/Singbox-Install/main/sh/win64clientmake_nobeta_amd64v3.sh | bash
+```
+
 卸载:
 ```
 curl -sSL https://raw.githubusercontent.com/HXHGTS/Singbox-Install/main/sh/uninstall.sh | bash
