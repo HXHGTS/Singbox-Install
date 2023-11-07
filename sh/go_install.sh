@@ -22,17 +22,11 @@ tar -C /usr/local -xzf /var/tmp/${Go_Version}.linux-amd64.tar.gz
 
 rm -f /var/tmp/${Go_Version}.linux-amd64.tar.gz
 
-export PATH=$PATH:/usr/local/go/bin
+echo 'export PATH=$PATH:/usr/local/go/bin' > /root/.bashrc
 
-echo -e 'export PATH=$PATH:/usr/local/go/bin\nexit 0\n' > /etc/rc.local
+chmod +x /root/.bashrc
 
-chmod +x /etc/rc.local
-
-systemctl daemon-reload
-
-systemctl start rc-local
-
-systemctl enable --now rc-local
+source /root/.bashrc
 
 go version
 
