@@ -50,7 +50,7 @@ curl -sSL https://raw.githubusercontent.com/HXHGTS/Singbox-Install/main/sh/win64
 ```
 支持手动指定版本:
 ```
-%VERSION%可指定为v1.8.2或者latest(最新正式版)或者v1.9.0-alpha.6这样的格式
+%VERSION%可指定为 v1.8.2 或者 latest (最新正式版)或者 v1.9.0-alpha.6 这样的格式
 ```
 ```
 curl -sSL https://raw.githubusercontent.com/HXHGTS/Singbox-Install/main/sh/win64clientmake_specifyversion_amd64v3.sh | bash -s -- --version %VERSION%
