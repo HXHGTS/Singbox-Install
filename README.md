@@ -43,9 +43,6 @@ curl -sSL https://raw.githubusercontent.com/HXHGTS/Singbox-Install/main/sh/compi
 文件位于`/root/go/bin/windows_amd64`
 
 ```
-curl -sSL https://raw.githubusercontent.com/HXHGTS/Singbox-Install/main/sh/win64clientmake.sh | bash
-```
-```
 curl -sSL https://raw.githubusercontent.com/HXHGTS/Singbox-Install/main/sh/win64clientmake_amd64v3.sh | bash
 ```
 ```
