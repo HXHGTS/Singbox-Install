@@ -50,7 +50,6 @@ curl -sSL https://raw.githubusercontent.com/HXHGTS/Singbox-Install/main/sh/win64
 ```
 ```
 curl -sSL https://raw.githubusercontent.com/HXHGTS/Singbox-Install/main/sh/win64clientmake_specifyversion_amd64v3.sh | bash -s -- --version %VERSION%
-
 ```
 
 ### 卸载
