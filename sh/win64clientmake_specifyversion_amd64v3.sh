@@ -22,6 +22,30 @@ if [ "$1" == "--version" ]; then
 
     fi
 
+    # check if the third argument is --tags
+
+    if [ "$3" == "--tags" ]; then
+
+      # check if the fourth argument is not empty
+
+      if [ -n "$4" ]; then
+
+        # assign the tags to a variable
+
+        Singbox_Tags=$4
+
+      else
+
+        Singbox_Tags=with_quic,with_dhcp,with_ech,with_utls,with_reality_server
+
+      fi
+
+    else
+
+      Singbox_Tags=with_quic,with_dhcp,with_ech,with_utls,with_reality_server
+
+    fi
+
     echo '正在打开Go环境. . .'
 
     source /root/.bashrc
@@ -30,7 +54,7 @@ if [ "$1" == "--version" ]; then
 
     echo '正在编译Windows版sing-box核心. . .'
 
-    env GOOS=windows GOARCH=amd64 GOAMD64=v3 CGO_ENABLED=0 go install -ldflags "-X github.com/sagernet/sing-box/constant.Version=${Singbox_Version}" -v -tags with_quic,with_grpc,with_dhcp,with_wireguard,with_ech,with_utls,with_reality_server,with_gvisor github.com/sagernet/sing-box/cmd/sing-box@${Singbox_Version}
+    env GOOS=windows GOARCH=amd64 GOAMD64=v3 CGO_ENABLED=0 go install -ldflags "-X github.com/sagernet/sing-box/constant.Version=${Singbox_Version}" -v -tags ${Singbox_Tags} github.com/sagernet/sing-box/cmd/sing-box@${Singbox_Version}
 
     echo 'sing-box Windows版客户端已编译完成!'
 
@@ -46,6 +70,6 @@ else
 
   # print the usage of the script
 
-  echo "使用方法: win64clientmake_specifyversion_amd64v3.sh --version %VERSION%"
+  echo "使用方法: win64clientmake_specifyversion_amd64v3.sh --version %VERSION% --tags %TAGS%"
 
 fi
