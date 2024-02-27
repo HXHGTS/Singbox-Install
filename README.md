@@ -50,10 +50,11 @@ curl -sSL https://raw.githubusercontent.com/HXHGTS/Singbox-Install/main/sh/win64
 ```
 支持手动指定版本:
 ```
-%VERSION%可指定为 v1.8.2 或者 latest (最新正式版)或者 v1.9.0-alpha.6 这样的格式
+%VERSION%可指定为 v1.8.2 或者 latest (最新正式版)或者 v1.9.0-alpha.6 类似的格式
+%TAGS%可指定为 with_quic,with_dhcp,with_ech,with_utls,with_reality_server 类似的格式,或直接为空
 ```
 ```
-curl -sSL https://raw.githubusercontent.com/HXHGTS/Singbox-Install/main/sh/win64clientmake_specifyversion_amd64v3.sh | bash -s -- --version %VERSION%
+curl -sSL https://raw.githubusercontent.com/HXHGTS/Singbox-Install/main/sh/win64clientmake_specifyversion_amd64v3.sh | bash -s -- --version %VERSION% --tags %TAGS%
 ```
 
 ### 卸载
