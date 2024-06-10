@@ -20,17 +20,13 @@ env GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go install -ldflags "-X github.com/sag
 
 echo '正在安装sing-box核心. . .'
 
-mv -f /root/go/bin/sing-box /usr/local/bin/
+Set_ConfDir=/etc/sing-box
 
-chmod +x /usr/local/bin/sing-box
+Set_BinDir=/usr/bin
 
-Default_ConfDir=/etc/sing-box
+mv -f /root/go/bin/sing-box ${Set_BinDir}
 
-Set_ConfDir=/usr/local/etc/sing-box
-
-Default_BinDir=/usr/bin/sing-box
-
-Set_BinDir=/usr/local/bin/sing-box
+chmod +x ${Set_BinDir}/sing-box
 
 mkdir -p ${Set_ConfDir}
 
