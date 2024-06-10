@@ -36,9 +36,9 @@ mkdir -p ${Set_ConfDir}
 
 echo '{}' > ${Set_ConfDir}/config.json
 
-curl https://raw.githubusercontent.com/HXHGTS/Singbox-Install/main/service/sing-box-compatible.service > /etc/systemd/system/sing-box.service
+curl https://raw.githubusercontent.com/HXHGTS/Singbox-Install/main/service/sing-box.service > /usr/lib/systemd/system/sing-box.service
 
-curl https://raw.githubusercontent.com/HXHGTS/Singbox-Install/main/service/sing-box-compatible@.service > /etc/systemd/system/sing-box@.service
+curl https://raw.githubusercontent.com/HXHGTS/Singbox-Install/main/service/sing-box@.service > /usr/lib/systemd/system/sing-box@.service
 
 systemctl daemon-reload
 
