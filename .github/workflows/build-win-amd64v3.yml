@@ -30,7 +30,7 @@ jobs:
         VERSION: ${{ vars.VERSION }}
         TAGS: ${{ vars.TAGS }}
       run: |
-        sudo env GOOS=windows GOARCH=amd64 GOAMD64=v3 CGO_ENABLED=0 go build -o sing-box.exe -ldflags "-X github.com/sagernet/sing-box/constant.Version=${{ vars.VERSION }}" -v -tags ${{ vars.TAGS }} github.com/sagernet/sing-box/cmd/sing-box@${{ vars.VERSION }}
+        sudo env GOOS=windows GOARCH=amd64 GOAMD64=v3 CGO_ENABLED=0 go install -o sing-box.exe -ldflags "-X github.com/sagernet/sing-box/constant.Version=${{ vars.VERSION }}" -v -tags ${{ vars.TAGS }} github.com/sagernet/sing-box/cmd/sing-box@${{ vars.VERSION }}
 
     - name: Push Files
       run: |
