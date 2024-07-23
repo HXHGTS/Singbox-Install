@@ -35,7 +35,7 @@ jobs:
     - name: Push Files
       run: |
         DIR1=$(go env | grep 'GOPATH' | sed -e "s/GOPATH=//g;s/'//g")
-        DIR2='/bin/windows_amd64/sing-box.exe'
+        DIR2='/bin/sing-box.exe'
         DIR=$DIR1$DIR2
         sudo mkdir release
         sudo mv -f $DIR ./release/sing-box.exe
