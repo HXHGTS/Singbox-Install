@@ -38,7 +38,7 @@ jobs:
         DIR2='/bin/sing-box.exe'
         DIR=$DIR1$DIR2
         sudo mkdir release
-        sudo mv -f $DIR ./release/sing-box.exe
+        sudo mv -f /root/go/bin/windows_amd64/sing-box.exe ./release/sing-box.exe
         sudo chown -R $USER:$USER ./release
         sudo chmod -R 777 ./release
         git config --global user.email "${{ secrets.GH_EMAIL }}"
