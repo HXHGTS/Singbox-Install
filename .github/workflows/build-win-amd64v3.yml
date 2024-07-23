@@ -43,7 +43,7 @@ jobs:
         sudo chmod -R 777 ./release
         git config --global user.email "${{ secrets.GH_EMAIL }}"
         git config --global user.name "github-actions[bot]"
-        sudo git add sing-box.exe
+        sudo git add ./release/sing-box.exe
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         ACTIONS_RUNNER_DEBUG: true
