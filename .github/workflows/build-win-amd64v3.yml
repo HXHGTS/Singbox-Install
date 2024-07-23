@@ -1,0 +1,73 @@
+name: Build WINDOWS AMD64V3 Binary
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-win-amd64v3:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: '1.23rc2'
+
+    - name: Install dependencies
+      run: sudo apt-get install -y curl
+
+    - name: Build binary
+      env:
+        VERSION: ${{ secrets.VERSION }}
+        TAGS: ${{ secrets.TAGS }}
+      run: |
+        curl -sSL https://raw.githubusercontent.com/HXHGTS/Singbox-Install/main/sh/win64clientmake_specifyversion_amd64v3.sh | sudo bash -s -- --version $VERSION --tags $TAGS
+
+    - name: Push Files
+      run: |
+        sudo chown -R $USER:$USER ./go/bin/windows_amd64
+        sudo chmod -R 777 ./go/bin/windows_amd64
+        git config --global user.email "${{ secrets.GH_EMAIL }}"
+        git config --global user.name "github-actions[bot]"
+        sudo git add ./go/bin/windows_amd64/*
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        ACTIONS_RUNNER_DEBUG: true
+        ACTIONS_STEP_DEBUG: true
+
+    - name: Create tag
+      id: create_tag
+      run: |
+        TAG_NAME=$(date -u +"%Y%m%d%H%M%S")
+        if git rev-parse "$TAG_NAME" >/dev/null 2>&1; then
+          echo "Tag $TAG_NAME already exists, deleting it from remote."
+          git push --delete origin "$TAG_NAME"
+          while git ls-remote --tags origin | grep -q "refs/tags/$TAG_NAME"; do
+            echo "Waiting for tag $TAG_NAME to be deleted..."
+            sleep 5
+          done
+        fi
+        git tag $TAG_NAME
+        git push --force origin $TAG_NAME
+        echo "::set-output name=TAG_NAME::$TAG_NAME"
+
+    - name: Create release
+      id: create_release
+      run: |
+        TAG_NAME=${{ steps.create_tag.outputs.TAG_NAME }}
+        RELEASE_ID=$(gh release view "$TAG_NAME" --json id --jq '.id' || echo "null")
+        if [ "$RELEASE_ID" != "null" ]; then
+          echo "Release $TAG_NAME already exists, deleting it."
+          gh release delete "$TAG_NAME" --yes
+        fi
+        gh release create "$TAG_NAME" --title "$TAG_NAME" --notes "Auto-generated release for $TAG_NAME" ./go/bin/windows_amd64/*
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
