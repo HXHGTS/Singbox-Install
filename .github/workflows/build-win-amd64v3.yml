@@ -23,7 +23,7 @@ jobs:
         check-latest: true
 
     - name: Install dependencies
-      run: sudo apt-get install -y curl sed
+      run: sudo apt-get install -y sed
 
     - name: Build binary
       env:
