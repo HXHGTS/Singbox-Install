@@ -27,21 +27,18 @@ jobs:
 
     - name: Build binary
       env:
-        VERSION: ${{ secrets.VERSION }}
-        TAGS: ${{ secrets.TAGS }}
+        VERSION: ${{ vars.VERSION }}
+        TAGS: ${{ vars.TAGS }}
       run: |
-        curl -sSL https://raw.githubusercontent.com/HXHGTS/Singbox-Install/main/sh/win64clientmake_specifyversion_amd64v3.sh | sudo bash -s -- --version $VERSION --tags $TAGS
+        sudo env GOOS=windows GOARCH=amd64 GOAMD64=v3 CGO_ENABLED=0 go build -o sing-box.exe -ldflags "-X github.com/sagernet/sing-box/constant.Version=${Singbox_Version}" -v -tags ${Singbox_Tags} github.com/sagernet/sing-box/cmd/sing-box@${Singbox_Version}
 
     - name: Push Files
       run: |
-        DIR1=$(go env | grep 'GOPATH' | sed -e "s/GOPATH=//g;s/'//g")
-        DIR2='/bin/windows_amd64/sing-box.exe'
-        DIR=$DIR1$DIR2
-        sudo chown -R $USER:$USER $DIR
-        sudo chmod -R 777 $DIR
+        sudo chown -R $USER:$USER sing-box.exe
+        sudo chmod -R 777 sing-box.exe
         git config --global user.email "${{ secrets.GH_EMAIL }}"
         git config --global user.name "github-actions[bot]"
-        sudo git add $DIR
+        sudo git add sing-box.exe
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         ACTIONS_RUNNER_DEBUG: true
@@ -72,6 +69,6 @@ jobs:
           echo "Release $TAG_NAME already exists, deleting it."
           gh release delete "$TAG_NAME" --yes
         fi
-        gh release create "$TAG_NAME" --title "$TAG_NAME" --notes "Auto-generated release for $TAG_NAME" $DIR
+        gh release create "$TAG_NAME" --title "$TAG_NAME" --notes "Auto-generated release for $TAG_NAME" sing-box.exe
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
