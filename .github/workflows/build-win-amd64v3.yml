@@ -25,21 +25,8 @@ jobs:
     - name: Install dependencies
       run: sudo apt-get install -y sed
 
-    - name: Build Beta binary
-      env:
-        TAGS: ${{ vars.TAGS }}
-      run: |
-        BETA_VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases | grep 'tag_name' | head -n 1 | awk -F\" '{print $4}')
-        sudo env GOOS=windows GOARCH=amd64 GOAMD64=v3 CGO_ENABLED=0 go install -ldflags "-X github.com/sagernet/sing-box/constant.Version=$BETA_VERSION" -v -tags ${{ vars.TAGS }} github.com/sagernet/sing-box/cmd/sing-box@$BETA_VERSION
-        sudo mv -f /root/go/bin/windows_amd64/sing-box.exe /root/go/bin/windows_amd64/sing-box-beta.exe
-
-    - name: Build v1.8.14 binary
-      env:
-        TAGS: ${{ vars.TAGS }}
-      run: |
-        VERSION='v1.8.14'
-        sudo env GOOS=windows GOARCH=amd64 GOAMD64=v3 CGO_ENABLED=0 go install -ldflags "-X github.com/sagernet/sing-box/constant.Version=$VERSION" -v -tags ${{ vars.TAGS }} github.com/sagernet/sing-box/cmd/sing-box@$VERSION
-        sudo mv -f /root/go/bin/windows_amd64/sing-box.exe /root/go/bin/windows_amd64/sing-box-$VERSION.exe
+    - name: Create release folder
+      run: sudo mkdir release
 
     - name: Build v1.7.8 binary
       env:
@@ -47,7 +34,23 @@ jobs:
       run: |
         VERSION='v1.7.8'
         sudo env GOOS=windows GOARCH=amd64 GOAMD64=v3 CGO_ENABLED=0 go install -ldflags "-X github.com/sagernet/sing-box/constant.Version=$VERSION" -v -tags ${{ vars.TAGS }} github.com/sagernet/sing-box/cmd/sing-box@$VERSION
-        sudo mv -f /root/go/bin/windows_amd64/sing-box.exe /root/go/bin/windows_amd64/sing-box-$VERSION.exe
+        sudo mv -f /root/go/bin/windows_amd64/sing-box.exe ./release/sing-box-$VERSION.exe
+
+    - name: Build v1.8.14 binary
+      env:
+        TAGS: ${{ vars.TAGS }}
+      run: |
+        VERSION='v1.8.14'
+        sudo env GOOS=windows GOARCH=amd64 GOAMD64=v3 CGO_ENABLED=0 go install -ldflags "-X github.com/sagernet/sing-box/constant.Version=$VERSION" -v -tags ${{ vars.TAGS }} github.com/sagernet/sing-box/cmd/sing-box@$VERSION
+        sudo mv -f /root/go/bin/windows_amd64/sing-box.exe ./release/sing-box-$VERSION.exe
+
+    - name: Build Beta binary
+      env:
+        TAGS: ${{ vars.TAGS }}
+      run: |
+        BETA_VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases | grep 'tag_name' | head -n 1 | awk -F\" '{print $4}')
+        sudo env GOOS=windows GOARCH=amd64 GOAMD64=v3 CGO_ENABLED=0 go install -ldflags "-X github.com/sagernet/sing-box/constant.Version=$BETA_VERSION" -v -tags ${{ vars.TAGS }} github.com/sagernet/sing-box/cmd/sing-box@$BETA_VERSION
+        sudo mv -f /root/go/bin/windows_amd64/sing-box.exe ./release/sing-box-beta.exe
 
     - name: Build Current binary
       env:
@@ -55,11 +58,10 @@ jobs:
       run: |
         CURRENT_VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases | grep 'tag_name' | grep -v 'alpha' | grep -v 'rc' | head -n 1 | awk -F\" '{print $4}')
         sudo env GOOS=windows GOARCH=amd64 GOAMD64=v3 CGO_ENABLED=0 go install -ldflags "-X github.com/sagernet/sing-box/constant.Version=$CURRENT_VERSION" -v -tags ${{ vars.TAGS }} github.com/sagernet/sing-box/cmd/sing-box@$CURRENT_VERSION
+        sudo mv -f /root/go/bin/windows_amd64/sing-box.exe ./release/sing-box.exe
 
     - name: Push Files
       run: |
-        sudo mkdir release
-        sudo mv -f /root/go/bin/windows_amd64/* ./release/
         sudo chown -R $USER:$USER ./release
         sudo chmod -R 777 ./release
         git config --global user.email "${{ secrets.GH_EMAIL }}"
