@@ -1,4 +1,4 @@
-name: Build WINDOWS AMD64V3 Latest Binary
+name: Build WINDOWS AMD64V3 Binary
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  build-win-amd64v3-latest:
+  build-win-amd64v3:
     runs-on: ubuntu-latest
 
     steps:
@@ -25,13 +25,34 @@ jobs:
     - name: Install dependencies
       run: sudo apt-get install -y sed
 
-    - name: Build binary
+    - name: Build Beta binary
       env:
         TAGS: ${{ vars.TAGS }}
       run: |
         BETA_VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases | grep 'tag_name' | head -n 1 | awk -F\" '{print $4}')
         sudo env GOOS=windows GOARCH=amd64 GOAMD64=v3 CGO_ENABLED=0 go install -ldflags "-X github.com/sagernet/sing-box/constant.Version=$BETA_VERSION" -v -tags ${{ vars.TAGS }} github.com/sagernet/sing-box/cmd/sing-box@$BETA_VERSION
         sudo mv -f /root/go/bin/windows_amd64/sing-box.exe /root/go/bin/windows_amd64/sing-box-beta.exe
+
+    - name: Build v1.8.14 binary
+      env:
+        TAGS: ${{ vars.TAGS }}
+      run: |
+        VERSION='v1.8.14'
+        sudo env GOOS=windows GOARCH=amd64 GOAMD64=v3 CGO_ENABLED=0 go install -ldflags "-X github.com/sagernet/sing-box/constant.Version=$VERSION" -v -tags ${{ vars.TAGS }} github.com/sagernet/sing-box/cmd/sing-box@$VERSION
+        sudo mv -f /root/go/bin/windows_amd64/sing-box.exe /root/go/bin/windows_amd64/sing-box-$VERSION.exe
+
+    - name: Build v1.7.8 binary
+      env:
+        TAGS: ${{ vars.TAGS }}
+      run: |
+        VERSION='v1.7.8'
+        sudo env GOOS=windows GOARCH=amd64 GOAMD64=v3 CGO_ENABLED=0 go install -ldflags "-X github.com/sagernet/sing-box/constant.Version=$VERSION" -v -tags ${{ vars.TAGS }} github.com/sagernet/sing-box/cmd/sing-box@$VERSION
+        sudo mv -f /root/go/bin/windows_amd64/sing-box.exe /root/go/bin/windows_amd64/sing-box-$VERSION.exe
+
+    - name: Build Current binary
+      env:
+        TAGS: ${{ vars.TAGS }}
+      run: |
         CURRENT_VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases | grep 'tag_name' | grep -v 'alpha' | grep -v 'rc' | head -n 1 | awk -F\" '{print $4}')
         sudo env GOOS=windows GOARCH=amd64 GOAMD64=v3 CGO_ENABLED=0 go install -ldflags "-X github.com/sagernet/sing-box/constant.Version=$CURRENT_VERSION" -v -tags ${{ vars.TAGS }} github.com/sagernet/sing-box/cmd/sing-box@$CURRENT_VERSION
 
