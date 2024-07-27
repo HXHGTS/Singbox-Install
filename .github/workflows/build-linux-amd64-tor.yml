@@ -31,7 +31,7 @@ jobs:
         TAGS: "with_gvisor,with_quic,with_wireguard,with_dhcp,with_ech,with_utls,with_reality_server,with_embedded_tor"
       run: |
         VERSION='v1.7.8'
-        sudo env GOOS=windows GOARCH=amd64 CGO_ENABLED=1 go install -ldflags "-X github.com/sagernet/sing-box/constant.Version=$VERSION" -v -tags ${{ env.TAGS }} github.com/sagernet/sing-box/cmd/sing-box@$VERSION
+        sudo env GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go install -ldflags "-X github.com/sagernet/sing-box/constant.Version=$VERSION" -v -tags ${{ env.TAGS }} github.com/sagernet/sing-box/cmd/sing-box@$VERSION
         sudo mv -f /root/go/bin/sing-box ./release/sing-box-$VERSION
 
     - name: Build v1.8.14 binary
@@ -47,7 +47,7 @@ jobs:
         TAGS: "with_gvisor,with_quic,with_wireguard,with_dhcp,with_ech,with_utls,with_reality_server,with_embedded_tor"
       run: |
         BETA_VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases | grep 'tag_name' | head -n 1 | awk -F\" '{print $4}')
-        sudo env GOOS=windows GOARCH=amd64 CGO_ENABLED=1 go install -ldflags "-X github.com/sagernet/sing-box/constant.Version=$BETA_VERSION" -v -tags ${{ env.TAGS }} github.com/sagernet/sing-box/cmd/sing-box@$BETA_VERSION
+        sudo env GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go install -ldflags "-X github.com/sagernet/sing-box/constant.Version=$BETA_VERSION" -v -tags ${{ env.TAGS }} github.com/sagernet/sing-box/cmd/sing-box@$BETA_VERSION
         sudo mv -f /root/go/bin/sing-box ./release/sing-box-beta
 
     - name: Build Current binary
@@ -55,7 +55,7 @@ jobs:
         TAGS: "with_gvisor,with_quic,with_wireguard,with_dhcp,with_ech,with_utls,with_reality_server,with_embedded_tor"
       run: |
         CURRENT_VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases | grep 'tag_name' | grep -v 'alpha' | grep -v 'rc' | head -n 1 | awk -F\" '{print $4}')
-        sudo env GOOS=windows GOARCH=amd64 CGO_ENABLED=1 go install -ldflags "-X github.com/sagernet/sing-box/constant.Version=$CURRENT_VERSION" -v -tags ${{ env.TAGS }} github.com/sagernet/sing-box/cmd/sing-box@$CURRENT_VERSION
+        sudo env GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go install -ldflags "-X github.com/sagernet/sing-box/constant.Version=$CURRENT_VERSION" -v -tags ${{ env.TAGS }} github.com/sagernet/sing-box/cmd/sing-box@$CURRENT_VERSION
         sudo mv -f /root/go/bin/sing-box ./release/sing-box
 
     - name: Push Files
