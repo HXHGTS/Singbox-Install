@@ -28,14 +28,6 @@ jobs:
     - name: Create release folder
       run: sudo mkdir release
 
-    - name: Build v1.7.8 binary
-      env:
-        TAGS: "with_gvisor,with_quic,with_wireguard,with_dhcp,with_ech,with_utls,with_reality_server,with_embedded_tor,staticOpenssl,staticZlib,staticLibevent"
-      run: |
-        VERSION='v1.7.8'
-        sudo env GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go install -ldflags "-X github.com/sagernet/sing-box/constant.Version=$VERSION" -v -tags ${{ env.TAGS }} github.com/sagernet/sing-box/cmd/sing-box@$VERSION
-        sudo mv -f /root/go/bin/sing-box ./release/sing-box-$VERSION
-
     - name: Build v1.8.14 binary
       env:
         TAGS: "with_gvisor,with_quic,with_wireguard,with_dhcp,with_ech,with_utls,with_reality_server,with_embedded_tor,staticOpenssl,staticZlib,staticLibevent"
