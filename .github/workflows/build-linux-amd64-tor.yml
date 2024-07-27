@@ -58,7 +58,8 @@ jobs:
             repo: require('@actions/github').context.repo.repo
           });
           return latestRelease.data.upload_url;
-
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Upload Release Assets
       uses: actions/upload-release-asset@v1
