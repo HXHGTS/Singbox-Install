@@ -76,12 +76,10 @@ jobs:
       with:
         upload_url: ${{ steps.get_release.outputs.result }}
         asset_path: |
-          ./release/sing-box-v1.7.8
           ./release/sing-box-v1.8.14
           ./release/sing-box
           ./release/sing-box-beta
         asset_name: |
-          sing-box-v1.7.8
           sing-box-v1.8.14
           sing-box
           sing-box-beta
