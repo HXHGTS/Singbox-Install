@@ -22,7 +22,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        sudo apt-get install -y gcc sed libevent-dev openssl libssl-dev zlib1g-dev
+        sudo apt-get install -y gcc sed libevent-dev libevent-openssl openssl libssl-dev zlib1g-dev
         export PKG_CONFIG_PATH=/usr/lib/pkgconfig:$PKG_CONFIG_PATH
 
     - name: Create release folder
