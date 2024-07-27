@@ -49,9 +49,11 @@ jobs:
         ACTIONS_STEP_DEBUG: true
 
     - name: Get Latest Tag
+      id: get_latest_tag
       run: |
-        RELEASE_TAG=$(curl -s https://api.github.com/repos/HXHGTS/Singbox-Install/releases/latest| grep 'tag_name' | awk -F\" '{print $4}')
-        echo ${RELEASE_TAG}
+        RELEASE_TAG=$(curl -s https://api.github.com/repos/HXHGTS/Singbox-Install/releases/latest | grep 'tag_name' | awk -F\" '{print $4}')
+        echo "RELEASE_TAG=${RELEASE_TAG}" >> $GITHUB_ENV
+        echo "release_tag=${RELEASE_TAG}" >> $GITHUB_OUTPUT
 
     - name: Upload binaries to release
       uses: svenstaro/upload-release-action@v2
@@ -59,5 +61,5 @@ jobs:
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         file: ./release/sing-box*
-        tag: ${RELEASE_TAG}
+        tag: ${{ steps.get_latest_tag.outputs.release_tag }}
         file_glob: true
