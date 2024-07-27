@@ -1,6 +1,9 @@
 name: Build WINDOWS AMD64V3 Binary
 
 on:
+  push:
+    branches:
+      - main
   schedule:
   - cron: '0 0 * * *'
   workflow_dispatch:
@@ -84,6 +87,8 @@ jobs:
         git tag $TAG_NAME
         git push --force origin $TAG_NAME
         echo "TAG_NAME=$TAG_NAME" >> $GITHUB_OUTPUT
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Create release
       id: create_release
