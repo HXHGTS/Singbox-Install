@@ -72,10 +72,21 @@ jobs:
         ACTIONS_RUNNER_DEBUG: true
         ACTIONS_STEP_DEBUG: true
 
+    - name: Get latest release
+      id: get_release
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const latestRelease = await github.repos.getLatestRelease({
+            owner: context.repo.owner,
+            repo: context.repo.repo
+          });
+          return latestRelease.data.upload_url;
+
     - name: Upload Release Assets
       uses: actions/upload-release-asset@v1
       with:
-        upload_url: ${{ github.event.release.upload_url }}
+        upload_url: ${{ steps.get_release.outputs.result }}
         asset_path: |
           ./release/sing-box-v1.7.8
           ./release/sing-box-v1.8.14
