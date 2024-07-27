@@ -1,0 +1,88 @@
+name: Build LINUX AMD64 TOR Binary
+
+on:
+  schedule:
+  - cron: '30 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  build-linux-amd64-tor:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: '1.x'
+        check-latest: true
+
+    - name: Install dependencies
+      run: sudo apt-get install -y sed
+
+    - name: Create release folder
+      run: sudo mkdir release
+
+    - name: Build v1.7.8 binary
+      env:
+        TAGS: "with_gvisor,with_quic,with_wireguard,with_dhcp,with_ech,with_utls,with_reality_server,with_embedded_tor"
+      run: |
+        VERSION='v1.7.8'
+        sudo env GOOS=windows GOARCH=amd64 CGO_ENABLED=1 go install -ldflags "-X github.com/sagernet/sing-box/constant.Version=$VERSION" -v -tags ${{ env.TAGS }} github.com/sagernet/sing-box/cmd/sing-box@$VERSION
+        sudo mv -f /root/go/bin/sing-box ./release/sing-box-$VERSION
+
+    - name: Build v1.8.14 binary
+      env:
+        TAGS: "with_gvisor,with_quic,with_wireguard,with_dhcp,with_ech,with_utls,with_reality_server,with_embedded_tor"
+      run: |
+        VERSION='v1.8.14'
+        sudo env GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go install -ldflags "-X github.com/sagernet/sing-box/constant.Version=$VERSION" -v -tags ${{ env.TAGS }} github.com/sagernet/sing-box/cmd/sing-box@$VERSION
+        sudo mv -f /root/go/bin/sing-box ./release/sing-box-$VERSION
+
+    - name: Build Beta binary
+      env:
+        TAGS: "with_gvisor,with_quic,with_wireguard,with_dhcp,with_ech,with_utls,with_reality_server,with_embedded_tor"
+      run: |
+        BETA_VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases | grep 'tag_name' | head -n 1 | awk -F\" '{print $4}')
+        sudo env GOOS=windows GOARCH=amd64 CGO_ENABLED=1 go install -ldflags "-X github.com/sagernet/sing-box/constant.Version=$BETA_VERSION" -v -tags ${{ env.TAGS }} github.com/sagernet/sing-box/cmd/sing-box@$BETA_VERSION
+        sudo mv -f /root/go/bin/sing-box ./release/sing-box-beta
+
+    - name: Build Current binary
+      env:
+        TAGS: "with_gvisor,with_quic,with_wireguard,with_dhcp,with_ech,with_utls,with_reality_server,with_embedded_tor"
+      run: |
+        CURRENT_VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases | grep 'tag_name' | grep -v 'alpha' | grep -v 'rc' | head -n 1 | awk -F\" '{print $4}')
+        sudo env GOOS=windows GOARCH=amd64 CGO_ENABLED=1 go install -ldflags "-X github.com/sagernet/sing-box/constant.Version=$CURRENT_VERSION" -v -tags ${{ env.TAGS }} github.com/sagernet/sing-box/cmd/sing-box@$CURRENT_VERSION
+        sudo mv -f /root/go/bin/sing-box ./release/sing-box
+
+    - name: Push Files
+      run: |
+        sudo chown -R $USER:$USER ./release
+        sudo chmod -R 777 ./release
+        git config --global user.email "${{ secrets.GH_EMAIL }}"
+        git config --global user.name "github-actions[bot]"
+        sudo git add ./release/*
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        ACTIONS_RUNNER_DEBUG: true
+        ACTIONS_STEP_DEBUG: true
+
+    - name: Upload Release Assets
+      uses: actions/upload-release-asset@v1
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: |
+          ./release/sing-box-v1.7.8
+          ./release/sing-box-v1.8.14
+          ./release/sing-box
+          ./release/sing-box-beta
+        asset_name: |
+          sing-box-v1.7.8
+          sing-box-v1.8.14
+          sing-box
+          sing-box-beta
+      asset_content_type: application/octet-stream
+      repo_token: ${{ secrets.GITHUB_TOKEN }}
+
