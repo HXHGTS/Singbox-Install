@@ -84,5 +84,5 @@ jobs:
           sing-box
           sing-box-beta
       asset_content_type: application/octet-stream
-      repo_token: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
