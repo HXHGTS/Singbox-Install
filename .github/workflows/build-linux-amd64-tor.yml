@@ -53,10 +53,9 @@ jobs:
       uses: actions/github-script@v6
       with:
         script: |
-          const { github, context } = require('@actions/github');
-          const latestRelease = await github.repos.getLatestRelease({
-            owner: context.repo.owner,
-            repo: context.repo.repo
+          const latestRelease = await require('@actions/github').repos.getLatestRelease({
+            owner: require('@actions/github').context.repo.owner,
+            repo: require('@actions/github').context.repo.repo
           });
           return latestRelease.data.upload_url;
 
