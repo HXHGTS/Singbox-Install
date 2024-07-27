@@ -30,18 +30,6 @@ jobs:
     - name: Create release folder
       run: sudo mkdir release
 
-    - name: Build v1.8.14 binary
-      run: |
-        VERSION='v1.8.14'
-        sudo env GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go install -ldflags "-X github.com/sagernet/sing-box/constant.Version=$VERSION" -v -tags ${{ env.TAGS }} github.com/sagernet/sing-box/cmd/sing-box@$VERSION
-        sudo mv -f /root/go/bin/sing-box ./release/sing-box-$VERSION
-
-    - name: Build Beta binary
-      run: |
-        BETA_VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases | grep 'tag_name' | head -n 1 | awk -F\" '{print $4}')
-        sudo env GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go install -ldflags "-X github.com/sagernet/sing-box/constant.Version=$BETA_VERSION" -v -tags ${{ env.TAGS }} github.com/sagernet/sing-box/cmd/sing-box@$BETA_VERSION
-        sudo mv -f /root/go/bin/sing-box ./release/sing-box-beta
-
     - name: Build Current binary
       run: |
         CURRENT_VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases | grep 'tag_name' | grep -v 'alpha' | grep -v 'rc' | head -n 1 | awk -F\" '{print $4}')
@@ -65,24 +53,22 @@ jobs:
       uses: actions/github-script@v6
       with:
         script: |
+          const { github, context } = require('@actions/github');
           const latestRelease = await github.repos.getLatestRelease({
             owner: context.repo.owner,
             repo: context.repo.repo
           });
           return latestRelease.data.upload_url;
 
+
     - name: Upload Release Assets
       uses: actions/upload-release-asset@v1
       with:
         upload_url: ${{ steps.get_release.outputs.result }}
         asset_path: |
-          ./release/sing-box-v1.8.14
           ./release/sing-box
-          ./release/sing-box-beta
         asset_name: |
-          sing-box-v1.8.14
           sing-box
-          sing-box-beta
         asset_content_type: application/x-executable
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
