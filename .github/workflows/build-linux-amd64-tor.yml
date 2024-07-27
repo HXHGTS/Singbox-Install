@@ -1,9 +1,9 @@
 name: Build LINUX AMD64 TOR Binary
 
 on:
-  release:
-    types:
-    - created
+  push:
+    tags:
+    - '*'
   workflow_dispatch:
 
 jobs:
