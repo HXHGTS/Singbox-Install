@@ -1,8 +1,9 @@
 name: Build LINUX AMD64 TOR Binary
 
 on:
-  schedule:
-  - cron: '30 0 * * *'
+  release:
+    types:
+    - created
   workflow_dispatch:
 
 jobs:
@@ -83,7 +84,7 @@ jobs:
           sing-box-v1.8.14
           sing-box
           sing-box-beta
-      asset_content_type: application/octet-stream
+      asset_content_type: application/x-executable
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
