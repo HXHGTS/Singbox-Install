@@ -48,27 +48,11 @@ jobs:
         ACTIONS_RUNNER_DEBUG: true
         ACTIONS_STEP_DEBUG: true
 
-    - name: Get latest release
-      id: get_release
-      uses: actions/github-script@v6
+    - name: Upload binaries to release
+      uses: svenstaro/upload-release-action@v2
+      if: github.event_name == 'release'
       with:
-        script: |
-          const latestRelease = await require('@actions/github').repos.getLatestRelease({
-            owner: require('@actions/github').context.repo.owner,
-            repo: require('@actions/github').context.repo.repo
-          });
-          return latestRelease.data.upload_url;
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Upload Release Assets
-      uses: actions/upload-release-asset@v1
-      with:
-        upload_url: ${{ steps.get_release.outputs.result }}
-        asset_path: |
-          ./release/sing-box
-        asset_name: |
-          sing-box
-        asset_content_type: application/x-executable
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: ./sing-box*
+        tag: ${{ github.ref }}
+        file_glob: true
