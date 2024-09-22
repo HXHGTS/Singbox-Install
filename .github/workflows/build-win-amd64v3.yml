@@ -30,14 +30,14 @@ jobs:
         TAGS: ${{ vars.TAGS }}
       run: |
         VERSION='v1.7.8'
-        wget -O ./release/sing-box-$VERSION.exe https://github.com/HXHGTS/Singbox-Install/releases/latest/download/sing-box-$VERSION.exe
+        sudo wget -O ./release/sing-box-$VERSION.exe https://github.com/HXHGTS/Singbox-Install/releases/latest/download/sing-box-$VERSION.exe
 
     - name: Build v1.8.14 binary
       env:
         TAGS: ${{ vars.TAGS }}
       run: |
         VERSION='v1.8.14'
-        wget -O ./release/sing-box-$VERSION.exe https://github.com/HXHGTS/Singbox-Install/releases/latest/download/sing-box-$VERSION.exe
+        sudo wget -O ./release/sing-box-$VERSION.exe https://github.com/HXHGTS/Singbox-Install/releases/latest/download/sing-box-$VERSION.exe
 
     - name: Build Beta binary
       env:
