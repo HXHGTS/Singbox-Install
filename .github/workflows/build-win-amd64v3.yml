@@ -20,7 +20,7 @@ jobs:
         check-latest: true
 
     - name: Install dependencies
-      run: sudo apt-get install -y sed
+      run: sudo apt-get install -y sed wget
 
     - name: Create release folder
       run: sudo mkdir release
@@ -30,16 +30,14 @@ jobs:
         TAGS: ${{ vars.TAGS }}
       run: |
         VERSION='v1.7.8'
-        sudo env GOOS=windows GOARCH=amd64 GOAMD64=v3 CGO_ENABLED=0 go install -ldflags "-X github.com/sagernet/sing-box/constant.Version=$VERSION" -v -tags ${{ vars.TAGS }} github.com/sagernet/sing-box/cmd/sing-box@$VERSION
-        sudo mv -f /root/go/bin/windows_amd64/sing-box.exe ./release/sing-box-$VERSION.exe
+        wget -O ./release/sing-box-$VERSION.exe https://github.com/HXHGTS/Singbox-Install/releases/latest/download/sing-box-$VERSION.exe
 
     - name: Build v1.8.14 binary
       env:
         TAGS: ${{ vars.TAGS }}
       run: |
         VERSION='v1.8.14'
-        sudo env GOOS=windows GOARCH=amd64 GOAMD64=v3 CGO_ENABLED=0 go install -ldflags "-X github.com/sagernet/sing-box/constant.Version=$VERSION" -v -tags ${{ vars.TAGS }} github.com/sagernet/sing-box/cmd/sing-box@$VERSION
-        sudo mv -f /root/go/bin/windows_amd64/sing-box.exe ./release/sing-box-$VERSION.exe
+        wget -O ./release/sing-box-$VERSION.exe https://github.com/HXHGTS/Singbox-Install/releases/latest/download/sing-box-$VERSION.exe
 
     - name: Build Beta binary
       env:
