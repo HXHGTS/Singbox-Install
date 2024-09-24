@@ -31,11 +31,11 @@ jobs:
           if [ "${{ matrix.version }}" == "beta" ]; then
             VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases | grep 'tag_name' | head -n 1 | awk -F\" '{print $4}')
             sudo env GOOS=windows GOARCH=amd64 GOAMD64=v3 CGO_ENABLED=0 go install -ldflags "-X github.com/sagernet/sing-box/constant.Version=$VERSION" -v -tags ${{ vars.TAGS }} github.com/sagernet/sing-box/cmd/sing-box@$VERSION
-            sudo mv -f /root/go/bin/windows_amd64/sing-box.exe ./sing-box-beta.exe
+            sudo mv -f /root/go/bin/windows_amd64/sing-box.exe ./sing-box-${{ matrix.version }}.exe
           elif [ "${{ matrix.version }}" == "current" ]; then
             VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases | grep 'tag_name' | grep -v 'alpha' | grep -v 'rc' | grep -v 'beta' | head -n 1 | awk -F\" '{print $4}')
             sudo env GOOS=windows GOARCH=amd64 GOAMD64=v3 CGO_ENABLED=0 go install -ldflags "-X github.com/sagernet/sing-box/constant.Version=$VERSION" -v -tags ${{ vars.TAGS }} github.com/sagernet/sing-box/cmd/sing-box@$VERSION
-            sudo mv -f /root/go/bin/windows_amd64/sing-box.exe ./sing-box.exe
+            sudo mv -f /root/go/bin/windows_amd64/sing-box.exe ./sing-box-${{ matrix.version }}.exe
           else
             sudo wget -O ./sing-box-${{ matrix.version }}.exe https://github.com/HXHGTS/Singbox-Install/releases/latest/download/sing-box-${{ matrix.version }}.exe
           fi
@@ -77,10 +77,16 @@ jobs:
           name: sing-box-current
           path: ./release
 
+      - name: Rename Files
+        run: |
+          mv -f ./release/sing-box-current.exe ./release/sing-box.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ACTIONS_RUNNER_DEBUG: true
+          ACTIONS_STEP_DEBUG: true
+
       - name: Push Files
         run: |
-          sudo chown -R $USER:$USER ./release
-          sudo chmod -R 777 ./release
           git config --global user.email "${{ secrets.GH_EMAIL }}"
           git config --global user.name "github-actions[bot]"
           sudo git add ./release/*
