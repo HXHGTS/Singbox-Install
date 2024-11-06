@@ -37,7 +37,8 @@ jobs:
             sudo env GOOS=windows GOARCH=amd64 GOAMD64=v3 CGO_ENABLED=0 go install -ldflags "-X github.com/sagernet/sing-box/constant.Version=$VERSION" -v -tags ${{ vars.TAGS }} github.com/sagernet/sing-box/cmd/sing-box@$VERSION
             sudo mv -f /root/go/bin/windows_amd64/sing-box.exe ./sing-box-${{ matrix.version }}.exe
           else
-            sudo env GOOS=windows GOARCH=amd64 GOAMD64=v3 CGO_ENABLED=0 go install -ldflags "-X github.com/sagernet/sing-box/constant.Version=${{ matrix.version }}" -v -tags ${{ vars.TAGS }} github.com/sagernet/sing-box/cmd/sing-box@${{ matrix.version }}
+            VERSION=${{ matrix.version }}
+            sudo env GOOS=windows GOARCH=amd64 GOAMD64=v3 CGO_ENABLED=0 go install -ldflags "-X github.com/sagernet/sing-box/constant.Version=$VERSION" -v -tags ${{ vars.TAGS }} github.com/sagernet/sing-box/cmd/sing-box@$VERSION
             sudo mv -f /root/go/bin/windows_amd64/sing-box.exe ./sing-box-${{ matrix.version }}.exe
           fi
 
