@@ -92,8 +92,8 @@ jobs:
 
       - name: Push Files
         run: |
-          git config --global user.email "${{ secrets.GH_EMAIL }}"
-          git config --global user.name "github-actions[bot]"
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           sudo git add ./release/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
