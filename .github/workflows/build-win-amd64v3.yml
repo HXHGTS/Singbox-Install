@@ -33,7 +33,7 @@ jobs:
         run: |
           if [ "${{ matrix.version }}" == "beta" ]; then
             VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases | grep 'tag_name' | head -n 1 | awk -F\" '{print $4}')
-            sudo env GOOS=windows GOARCH=amd64 GOAMD64=v3 CGO_ENABLED=0 go install -ldflags "-X github.com/sagernet/sing-box/constant.Version=$VERSION -checklinkname=0" -v -tags ${{ vars.TAGS }},with_tailscale github.com/sagernet/sing-box/cmd/sing-box@$VERSION
+            sudo env GOOS=windows GOARCH=amd64 GOAMD64=v3 CGO_ENABLED=0 go install -ldflags "-X github.com/sagernet/sing-box/constant.Version=$VERSION -checklinkname=0" -v -tags ${{ vars.TAGS }} github.com/sagernet/sing-box/cmd/sing-box@$VERSION
             sudo mv -f /root/go/bin/windows_amd64/sing-box.exe ./sing-box-${{ matrix.version }}.exe
           elif [ "${{ matrix.version }}" == "current" ]; then
             VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases | grep 'tag_name' | grep -v 'alpha' | grep -v 'rc' | grep -v 'beta' | head -n 1 | awk -F\" '{print $4}')
