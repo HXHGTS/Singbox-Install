@@ -2,7 +2,7 @@ name: Build WINDOWS AMD64V3 Binary
 
 on:
   schedule:
-    - cron: '0 10 * * *'
+    - cron: '0 16 * * *'
   workflow_dispatch:
 
 jobs:
