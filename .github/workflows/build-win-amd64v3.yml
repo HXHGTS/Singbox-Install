@@ -2,11 +2,32 @@ name: Build WINDOWS AMD64V3 Binary
 
 on:
   schedule:
+    # Daily probe; the cadence gate enforces the real 10-day interval.
     - cron: '0 16 * * *'
   workflow_dispatch:
 
 jobs:
+  cadence:
+    runs-on: ubuntu-latest
+    outputs:
+      run: ${{ steps.gate.outputs.run }}
+    steps:
+      - name: 10-day cadence gate
+        id: gate
+        run: |
+          D=$(( $(date -u +%s) / 86400 ))
+          A=20741
+          if [ "$D" -ge "$A" ] && [ $(( (D - A) % 10 )) -eq 0 ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+            echo "cadence HIT: 10-day cycle, epoch day $D"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            echo "cadence MISS: 10-day cycle, epoch day $D -> skipping real work"
+          fi
+
   build-template:
+    needs: cadence
+    if: github.event_name != 'schedule' || needs.cadence.outputs.run == 'true'
     runs-on: ubuntu-latest
     strategy:
       matrix:
