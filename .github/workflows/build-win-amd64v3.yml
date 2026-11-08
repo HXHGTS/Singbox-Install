@@ -149,3 +149,23 @@ jobs:
           gh release create "$TAG_NAME" --title "$TAG_NAME" --notes "Auto-generated release for $TAG_NAME" ./release/*
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  cleanup:
+    needs: aggregate-results
+    # The build artifacts are inputs for the release job only; the release keeps the real assets.
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - name: Delete build artifacts for this run
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          ids=$(gh api --paginate "repos/$GH_REPO/actions/runs/$RUN_ID/artifacts" --jq '.artifacts[].id')
+          for id in $ids; do
+            gh api -X DELETE "repos/$GH_REPO/actions/artifacts/$id"
+          done
